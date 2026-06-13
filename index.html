@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Turning Point HR Solutions — executive search, HR advisory and outsourcing, and a full software &amp; product development practice: logistics consulting, ERP integration, carrier connect and managed services."
+    />
+    <title>Turning Point HR Solutions — Talent, Advisory & Software</title>
+    <script>
+      // Set theme before first paint to avoid a flash of the wrong mode.
+      (function () {
+        try {
+          var stored = localStorage.getItem('tphrs-theme');
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

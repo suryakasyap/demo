@@ -1,5 +1,13 @@
-import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import {
+  ArrowRight,
+  MousePointerClick,
+  Plug,
+  Rocket,
+  Users,
+  Check,
+} from 'lucide-react';
+import { gsap, prefersReducedMotion } from '../lib/gsap';
 import useReveal from '../hooks/useReveal';
 import Highlight from './Highlight';
 import logoLight from '../assets/logo-light.png';
@@ -7,32 +15,132 @@ import logoDark from '../assets/logo-dark.png';
 
 /* ---------- How we work ---------- */
 
-const STEPS = [
+// The four-step method stays constant; the wording is tailored to the kind
+// of work selected in the toggle above the grid.
+const TRACKS = [
   {
-    num: 'Step 01',
-    title: 'Listen & scope',
-    body: 'We start with your situation, not a pitch — a conversation with the people who will actually do the work.',
+    id: 'implementation',
+    label: 'Software implementation',
+    tagline: 'Integrate & deploy platforms',
+    icon: Plug,
+    steps: [
+      {
+        num: 'Step 01',
+        title: 'Discover & map',
+        body: 'We map the platforms, data flows and processes the new system has to fit — before a single thing is configured.',
+      },
+      {
+        num: 'Step 02',
+        title: 'Blueprint the rollout',
+        body: 'A written plan: scope, integrations, milestones, named owners and how go-live success will be measured.',
+      },
+      {
+        num: 'Step 03',
+        title: 'Integrate & deploy',
+        body: 'We configure, connect and migrate in tested stages — with UAT and checkpoints, no big-bang surprise cutovers.',
+      },
+      {
+        num: 'Step 04',
+        title: 'Stabilise & support',
+        body: 'Hypercare through go-live, then managed support so the platform keeps performing as you scale.',
+      },
+    ],
   },
   {
-    num: 'Step 02',
-    title: 'Propose in plain terms',
-    body: 'A clear written plan: what we will do, who will do it, what it costs and how success is measured.',
+    id: 'product',
+    label: 'Product development',
+    tagline: 'Design, build & ship',
+    icon: Rocket,
+    steps: [
+      {
+        num: 'Step 01',
+        title: 'Frame the problem',
+        body: 'We start with the outcome and the users, not a feature list — a working session with the people who will live with it.',
+      },
+      {
+        num: 'Step 02',
+        title: 'Shape & estimate',
+        body: 'A clear plan: scope, architecture, the team, the timeline and the cost — in plain terms, with success defined up front.',
+      },
+      {
+        num: 'Step 03',
+        title: 'Build in the open',
+        body: 'Short iterations with named owners and a demo every sprint — a working build you can try at each step.',
+      },
+      {
+        num: 'Step 04',
+        title: 'Launch & evolve',
+        body: 'We deploy, monitor and support what we ship, then keep improving it as your product and users grow.',
+      },
+    ],
   },
   {
-    num: 'Step 03',
-    title: 'Deliver & report',
-    body: 'Search, advisory or software build — you get named owners, regular checkpoints and no surprises.',
-  },
-  {
-    num: 'Step 04',
-    title: 'Stay accountable',
-    body: 'We support what we place and what we ship, and stay with candidates and products as they grow.',
+    id: 'hr',
+    label: 'HR & Consulting',
+    tagline: 'Search, advisory & HR ops',
+    icon: Users,
+    steps: [
+      {
+        num: 'Step 01',
+        title: 'Listen & scope',
+        body: 'We start with your situation, not a pitch — a conversation about the role, the team and the culture you are hiring into.',
+      },
+      {
+        num: 'Step 02',
+        title: 'Propose in plain terms',
+        body: 'A clear written plan: the search or HR approach, who runs it, what it costs and how we will measure a great fit.',
+      },
+      {
+        num: 'Step 03',
+        title: 'Search & deliver',
+        body: 'Headhunting, screening and advisory by postgraduate consultants — shortlists, regular checkpoints and no surprises.',
+      },
+      {
+        num: 'Step 04',
+        title: 'Stay accountable',
+        body: 'We stand behind every placement and engagement, staying with candidates and clients as they grow.',
+      },
+    ],
   },
 ];
 
 export function Approach() {
   const headRef = useReveal();
-  const gridRef = useReveal({ delay: 0.15 });
+  const bodyRef = useReveal({ delay: 0.15 });
+  const panelRef = useRef(null);
+  const tabRefs = useRef([]);
+  const firstRender = useRef(true);
+  const [active, setActive] = useState('implementation');
+
+  const track = TRACKS.find((t) => t.id === active);
+
+  // Arrow-key navigation for the toggle (WAI-ARIA tablist pattern).
+  const onTabKeyDown = (e, idx) => {
+    const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+    let next;
+    if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = TRACKS.length - 1;
+    else if (step[e.key] !== undefined)
+      next = (idx + step[e.key] + TRACKS.length) % TRACKS.length;
+    else return;
+
+    e.preventDefault();
+    setActive(TRACKS[next].id);
+    tabRefs.current[next]?.focus();
+  };
+
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (prefersReducedMotion()) return;
+    gsap.fromTo(
+      panelRef.current,
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }
+    );
+  }, [active]);
 
   return (
     <section className="section section--soft approach" id="approach">
@@ -40,18 +148,79 @@ export function Approach() {
         <div className="reveal" ref={headRef}>
           <p className="eyebrow">How we work</p>
           <h2 className="section-title">
-            The same four steps, whether you need{' '}
-            <Highlight>a leader or a platform</Highlight>.
+            The same four-step method —{' '}
+            <Highlight>tuned to the work you need</Highlight>.
           </h2>
         </div>
-        <div className="approach__grid reveal" ref={gridRef}>
-          {STEPS.map((s) => (
-            <article className="step-card" key={s.num}>
-              <span className="step-card__num">{s.num}</span>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </article>
-          ))}
+
+        <div className="reveal" ref={bodyRef}>
+          <div className="practice-picker">
+            <p className="practice-picker__hint" id="approach-hint">
+              <MousePointerClick aria-hidden="true" />
+              Pick the kind of work — see exactly how we&rsquo;d run it.
+            </p>
+            <div
+              className="practice-switch"
+              role="tablist"
+              aria-label="Choose a kind of work"
+              aria-describedby="approach-hint"
+            >
+              {TRACKS.map((t, i) => {
+                const TrackIcon = t.icon;
+                const selected = active === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    role="tab"
+                    id={`approach-tab-${t.id}`}
+                    ref={(el) => {
+                      tabRefs.current[i] = el;
+                    }}
+                    aria-selected={selected}
+                    aria-controls={
+                      selected ? `approach-panel-${t.id}` : undefined
+                    }
+                    tabIndex={selected ? 0 : -1}
+                    className={`practice-card ${selected ? 'is-active' : ''}`}
+                    onClick={() => setActive(t.id)}
+                    onKeyDown={(e) => onTabKeyDown(e, i)}
+                  >
+                    <span className="practice-card__icon" aria-hidden="true">
+                      <TrackIcon />
+                    </span>
+                    <span className="practice-card__check" aria-hidden="true">
+                      <Check />
+                    </span>
+                    <span className="practice-card__text">
+                      <span className="practice-card__label">{t.label}</span>
+                      <span className="practice-card__tagline">
+                        {t.tagline}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div
+            ref={panelRef}
+            role="tabpanel"
+            id={`approach-panel-${track.id}`}
+            aria-labelledby={`approach-tab-${track.id}`}
+            tabIndex={0}
+          >
+            <div className="approach__grid">
+              {track.steps.map((s) => (
+                <article className="step-card" key={s.num}>
+                  <span className="step-card__num">{s.num}</span>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -288,7 +457,6 @@ export function Footer() {
               <span className="brand__mark">
                 TPHRS<span className="dot">.</span>
               </span>
-              <span className="brand__sub">Turning Point HR Solutions</span>
             </div>
           </a>
 

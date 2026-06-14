@@ -19,8 +19,10 @@ npm run preview    # preview the production build
 
 - `src/styles/global.css` — every theme token (light/dark) at the top.
   Greens: `--accent`, `--accent-deep`, `--hl-bg`. Bubble highlight: `.hl`.
-- `src/components/Services.jsx` — the `TABS` array holds all nine services
-  (3 talent & HR, 6 software & product) and the platform connector badges.
+- `src/components/Services.jsx` — the `TABS` array holds all ten services
+  across three practices (3 consulting, 4 SI partner & product development,
+  3 talent & HR), the large age-friendly practice picker, and the platform
+  connector badges.
 - `src/components/Hero.jsx` — the hero photo loop and the ticker.
 - `src/components/PhotoLoop.jsx` — the looping hero photos. Slides are
   hotlinked from Unsplash (free licence); swap `src` values for your own

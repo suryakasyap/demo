@@ -5,6 +5,7 @@ import Highlight from './Highlight';
 
 const STEPS = [
   {
+    year: '2009',
     when: 'Where we started',
     title: 'A people firm, trusted at the top.',
     body: `Turning Point HR Solutions began as an executive-level advisory, search
@@ -14,7 +15,8 @@ const STEPS = [
     chips: ['Executive search', 'HR advisory', 'HR outsourcing'],
   },
   {
-    when: 'What we noticed',
+    year: '2019',
+    when: 'How we evolved',
     title: 'Every people problem ended at a system.',
     body: `Years of designing IT tools for HR, guiding ERP implementations and
       managing HRIS platforms taught us something: the organisations we serve
@@ -23,15 +25,17 @@ const STEPS = [
     chips: ['IT tools for HR', 'ERP guidance', 'Global HRIS'],
   },
   {
+    year: '2024',
     when: 'Where we are now',
-    title: 'A software and product development firm — still a people firm.',
-    body: `TPHRS has grown into a full software and product development
-      practice alongside everything we have always done: consulting on
-      logistics and supply chains, integrating the enterprise platforms our
-      clients already run, and building, deploying and supporting the systems
-      their businesses depend on. The same advisory rigour, applied to the
-      platforms your organisation runs on.`,
-    chips: ['Logistics consulting', 'ERP integration', 'Managed platforms'],
+    title: 'Consulting, SI and product — all under one roof.',
+    body: `Those system insights grew into a full technology arm, and three
+      disciplines now move as one. We consult on logistics and supply-chain
+      strategy, act as the systems-integration (SI) partner that connects the
+      enterprise platforms our clients already run, and bring the product
+      management that builds, ships and supports the software their businesses
+      depend on. Advisory, integration and product — joined into one team, and
+      still carrying the people-first rigour we started with.`,
+    chips: ['Consulting', 'SI partner', 'Product management'],
   },
 ];
 
@@ -74,9 +78,9 @@ function Step({ step }) {
   return (
     <article className="story__step reveal" ref={ref}>
       <span className="story__node" aria-hidden="true" />
+      <span className="story__year">{step.year}</span>
       <p className="story__when">{step.when}</p>
       <h3>{step.title}</h3>
-      <p>{step.body}</p>
       <div className="story__chips">
         {step.chips.map((c) => (
           <span className="chip" key={c}>
@@ -84,6 +88,7 @@ function Step({ step }) {
           </span>
         ))}
       </div>
+      <p>{step.body}</p>
     </article>
   );
 }
@@ -148,7 +153,8 @@ export default function Story() {
           ))}
           <p className="story__step story__handoff">
             <span className="story__node" aria-hidden="true" />
-            Both practices now share one front door —{' '}
+            <span className="story__year story__year--now">Today</span>
+            All practices now share one front door —{' '}
             <a href="#services">see everything we offer below</a>.
           </p>
         </div>

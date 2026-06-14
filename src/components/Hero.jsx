@@ -9,12 +9,13 @@ const TICKER = [
   'Executive search',
   'HR advisory',
   'HR outsourcing',
-  'Domain consulting',
+  'Supply-chain consulting',
+  'Digital transformation',
+  'Risk & compliance',
   'ERP integration',
   'Carrier connect',
   'Implementation & onboarding',
   'Managed services',
-  'Support & maintenance',
 ];
 
 export default function Hero() {

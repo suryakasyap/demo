@@ -17,7 +17,7 @@ const SLIDES = [
   },
   {
     id: 'advisory',
-    src: 'https://plus.unsplash.com/premium_photo-1726736502131-52bcc7c97f98?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: 'https://images.pexels.com/photos/5833340/pexels-photo-5833340.jpeg',
     alt: 'A senior business leader in a modern office',
     kicker: 'Advisory',
     caption: 'HR consulting, audits & compliance',

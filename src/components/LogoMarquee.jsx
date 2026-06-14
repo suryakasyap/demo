@@ -24,7 +24,7 @@ function Item({ item }) {
   );
 }
 
-export default function LogoMarquee({ label, items }) {
+export default function LogoMarquee({ label, items, className = '' }) {
   // Ensure each group is wide enough to fill the viewport for a seamless loop.
   // Repeat the items until we have at least 14 entries per group.
   const MIN_COUNT = 14;
@@ -46,7 +46,7 @@ export default function LogoMarquee({ label, items }) {
   );
 
   return (
-    <div className="lm">
+    <div className={`lm ${className}`.trim()}>
       <p className="lm__label">{label}</p>
       <div className="lm__viewport">
         <div

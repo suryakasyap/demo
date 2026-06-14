@@ -72,7 +72,6 @@ export default function Nav({ theme, onToggleTheme }) {
             <span className="brand__mark">
               TPHRS<span className="dot">.</span>
             </span>
-            <span className="brand__sub">Turning Point HR Solutions</span>
           </div>
         </a>
 

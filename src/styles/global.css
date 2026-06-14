@@ -32,6 +32,7 @@
   --font-display: 'Space Grotesk Variable', 'Space Grotesk', sans-serif;
   --font-body: 'Manrope Variable', 'Manrope', 'Helvetica Neue', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', menlo, monospace;
+  --font-serif: 'PT Serif', Georgia, 'Times New Roman', serif;
 
   --wrap: 1140px;
   --radius: 16px;
@@ -484,22 +485,14 @@ svg {
 }
 
 .brand__mark {
-  font-family: var(--font-display);
+  font-family: var(--font-serif);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 23px;
   letter-spacing: 0.01em;
 }
 
 .brand__mark .dot {
   color: var(--accent-deep);
-}
-
-.brand__sub {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
 }
 
 .nav__links {
@@ -858,7 +851,9 @@ svg {
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   padding: 14px 0;
   border-radius: 12px;
-  background: rgb(0 0 0 / 0.04);
+  /* Light mode: no band — the ribbon blends fully into the page background.
+     The contrast band returns only in dark mode (below). */
+  background: transparent;
   transition: background-color 0.45s ease;
 }
 
@@ -1015,12 +1010,13 @@ svg {
 .story__rail {
   position: relative;
   margin-top: 64px;
-  padding-left: 58px;
+  /* Wider left gutter holds the year timeline to the left of the thread. */
+  padding-left: 96px;
 }
 
 .story__thread {
   position: absolute;
-  left: 17px;
+  left: 64px;
   top: 6px;
   bottom: 6px;
   width: 2px;
@@ -1049,7 +1045,7 @@ svg {
 
 .story__node {
   position: absolute;
-  left: -49px;
+  left: -40px;
   top: 6px;
   width: 18px;
   height: 18px;
@@ -1062,6 +1058,33 @@ svg {
 .story__step.is-active .story__node {
   background: var(--accent-deep);
   box-shadow: 0 0 0 6px var(--accent-soft);
+}
+
+/* Year sits in the gutter, right-aligned just left of its dot. */
+.story__year {
+  position: absolute;
+  left: -96px;
+  top: 6px;
+  width: 52px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--ink-soft);
+  transition: color 0.4s ease;
+}
+
+.story__step.is-active .story__year {
+  color: var(--accent-deep);
+}
+
+.story__year--now {
+  color: var(--accent-deep);
 }
 
 .story__when {
@@ -1087,7 +1110,8 @@ svg {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
+  /* Now sits between the title and the body — a glance before the read. */
+  margin: 2px 0 20px;
 }
 
 .chip {
@@ -1108,38 +1132,165 @@ svg {
   font-weight: 700;
 }
 
-/* ---------- services (index / accordion) ---------- */
+@media (max-width: 560px) {
+  .story__rail {
+    padding-left: 76px;
+  }
 
-.services__tabs {
-  display: inline-flex;
-  background: var(--surface);
-  border: 1.5px solid var(--line);
-  border-radius: 14px;
-  padding: 5px;
-  margin: 40px 0 28px;
-  gap: 4px;
+  .story__thread {
+    left: 50px;
+  }
+
+  .story__node {
+    left: -34px;
+  }
+
+  .story__year {
+    left: -76px;
+    width: 36px;
+    font-size: 13px;
+  }
 }
 
-.services__tab {
-  border: 0;
-  background: transparent;
+/* ---------- services (index / accordion) ---------- */
+
+/* practice picker — compact, refined toggle between practices */
+.practice-picker {
+  margin: 34px 0 24px;
+}
+
+.practice-picker__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 13px;
+  font-size: 13.5px;
+  font-weight: 600;
   color: var(--ink-soft);
-  font-family: var(--font-body);
-  font-size: 15.5px;
-  font-weight: 700;
-  padding: 11px 22px;
-  border-radius: 10px;
+}
+
+.practice-picker__hint svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--accent-deep);
+}
+
+.practice-switch {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.practice-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'icon text check';
+  align-items: center;
+  gap: 11px;
+  text-align: left;
+  padding: 11px 13px;
+  /* Hairline outline + a whisper of lift — each card still reads as its own
+     tappable tile, just lighter and more refined than the earlier large one. */
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 4px 14px -12px rgb(32 38 31 / 0.42);
+  font: inherit;
   cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.25s ease,
+    color 0.25s ease, transform 0.25s var(--ease), box-shadow 0.25s ease;
+}
+
+.practice-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.practice-card.is-active {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  color: var(--btn-ink);
+  box-shadow: 0 10px 22px -16px rgb(32 38 31 / 0.55);
+}
+
+.practice-card__icon {
+  grid-area: icon;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-.services__tab[aria-selected='true'] {
-  background: var(--accent-deep);
+.practice-card__icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.practice-card.is-active .practice-card__icon {
+  background: color-mix(in srgb, var(--btn-ink) 18%, transparent);
   color: var(--btn-ink);
 }
 
-.services__tab:not([aria-selected='true']):hover {
+.practice-card__check {
+  grid-area: check;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--btn-ink);
   color: var(--accent-deep);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.25s var(--ease);
+}
+
+.practice-card__check svg {
+  width: 13px;
+  height: 13px;
+}
+
+.practice-card.is-active .practice-card__check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.practice-card__text {
+  grid-area: text;
+  min-width: 0;
+}
+
+.practice-card__label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.practice-card__tagline {
+  display: block;
+  margin-top: 1px;
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s ease;
+}
+
+.practice-card.is-active .practice-card__tagline {
+  color: var(--btn-ink);
+  opacity: 0.82;
 }
 
 .services__intro {
@@ -1262,46 +1413,168 @@ svg {
   color: var(--accent-deep);
 }
 
-.platforms {
+/* ERP platform selector, nested inside the "ERP & platform integration" row */
+.svc-platforms {
+  margin-top: 26px;
+}
+
+.svc-platforms__label {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 7px;
+}
+
+.svc-platforms__label::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  flex: none;
+}
+
+.svc-platforms__hint {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  margin: 0 0 16px;
+}
+
+/* ERP / TMS platform selector */
+.erp__switch {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 8px;
 }
 
-.platform {
+.erp__tab {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  padding: 9px 16px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 11px;
   background: var(--surface);
-  padding: 8px 16px 8px 8px;
-  font-size: 14.5px;
-  font-weight: 600;
-}
-
-.platform__glyph {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: var(--accent-soft);
-  color: var(--accent-deep);
-  display: grid;
-  place-items: center;
-  font-family: var(--font-mono);
-  font-size: 10px;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  overflow: hidden;
-  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.2s ease;
 }
 
-.platform__logo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.erp__tab:hover {
+  color: var(--accent-deep);
+  border-color: var(--accent);
+}
+
+.erp__tab.is-active {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  color: var(--btn-ink);
+}
+
+/* Tick clue — reveals after the platform is chosen, mirroring the practice
+   cards' selected state. */
+/* Tick clue — a circular badge (white circle, green check) that mirrors the
+   practice cards' selected state, revealed once the platform is chosen. */
+.erp__tab-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  height: 20px;
+  margin-left: 0;
+  border-radius: 50%;
+  background: var(--btn-ink);
+  color: var(--accent-deep);
+  opacity: 0;
+  overflow: hidden;
+  flex: none;
+  transition: width 0.25s var(--ease), margin-left 0.25s var(--ease),
+    opacity 0.2s ease;
+}
+
+.erp__tab-check svg {
+  width: 12px;
+  height: 12px;
+  flex: none;
+}
+
+.erp__tab.is-active .erp__tab-check {
+  width: 20px;
+  margin-left: 8px;
+  opacity: 1;
+}
+
+.erp__panel {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 22px 24px;
+}
+
+.erp__head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* The chip hugs each logo: fixed height, width follows the logo's aspect. */
+.erp__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  min-width: 56px;
+  max-width: 160px;
+  padding: 7px 13px;
   border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  flex: none;
+  overflow: hidden;
+}
+
+.erp__logo img {
+  height: 100%;
+  width: auto;
+  max-width: 124px;
+  object-fit: contain;
+}
+
+/* The SAP asset is a square with the mark in the middle ~half, so it renders
+   tiny at the default height — scale it up; the transparent padding it gains
+   overflows the chip and is clipped. */
+.erp__logo--sap img {
+  height: 64px;
+  max-width: 64px;
+}
+
+.erp__name {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 3px;
+}
+
+.erp__blurb {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  margin: 0;
+}
+
+.erp__services {
+  margin: 0;
 }
 
 .svc-ask {
@@ -1350,14 +1623,14 @@ svg {
     grid-template-columns: 1fr;
   }
 
-  .services__tabs {
-    width: 100%;
+  /* Stack into full-width rows — a slightly roomier tap target on touch. */
+  .practice-switch {
+    grid-template-columns: 1fr;
+    gap: 9px;
   }
 
-  .services__tab {
-    flex: 1;
-    padding: 11px 8px;
-    font-size: 14px;
+  .practice-card {
+    padding: 13px 15px;
   }
 }
 
@@ -1367,7 +1640,8 @@ svg {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  margin-top: 56px;
+  /* Sits just under the toggle panel now, so less top margin than before. */
+  margin-top: 10px;
 }
 
 .step-card {
@@ -1828,6 +2102,10 @@ svg {
 
   .hl {
     --ink-scale: 1;
+  }
+
+  .practice-card:hover {
+    transform: none;
   }
 
   .blob,

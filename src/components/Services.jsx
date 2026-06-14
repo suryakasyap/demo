@@ -366,7 +366,7 @@ export default function Services() {
         <div className="reveal" ref={headRef}>
           <p className="eyebrow">Services</p>
           <h2 className="section-title">
-            Two practices. <Highlight>One accountable partner.</Highlight>
+            Multiple practices. <Highlight>One accountable partner.</Highlight>
           </h2>
           <p className="section-lede">
             Hire us for one engagement or both — the relationship, the

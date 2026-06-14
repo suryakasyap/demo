@@ -121,7 +121,7 @@ export default function Hero() {
               Singapore &amp; UAE
             </li>
             <li>
-              <span className="dot">●</span>Two practices, one accountable team
+              <span className="dot">●</span>Multiple practices, one accountable team
             </li>
           </ul>
         </div>

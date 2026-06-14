@@ -253,15 +253,6 @@ export function Contact() {
               <p>Phone: 0891-6669777 · 92466 55588</p>
             </div>
             <div className="office">
-              <h3>Hyderabad office</h3>
-              <p>
-                Plot No. 263, 4th Floor, above HDFC Bank,
-                <br />
-                Vivekananda Nagar, Kukatpally, Hyderabad 500072
-              </p>
-              <p>Phone: 93983 74296</p>
-            </div>
-            <div className="office">
               <h3>Write to the right desk</h3>
               <p className="contact__mailrow">
                 Business — <a href="mailto:business@tphrs.com">business@tphrs.com</a>

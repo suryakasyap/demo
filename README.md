@@ -44,7 +44,7 @@ npm run preview    # preview the production build
 - To add photography, place files in `public/` and reference them in the
   story or why sections; the layout leaves room either side of the rail.
 - The contact form opens the visitor's email app addressed to
-  business@tphrs.com — swap the `submit` handler in `Sections.jsx` for a real
+  dvrraju@tphrs.com — swap the `submit` handler in `Sections.jsx` for a real
   endpoint when ready.
 
 ## Accessibility

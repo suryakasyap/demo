@@ -2012,6 +2012,23 @@ svg {
   color: var(--ink-soft);
 }
 
+.footer__legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.footer__legal-links a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer__legal-links a:hover {
+  color: var(--accent-deep);
+  text-decoration: underline;
+}
+
 @media (max-width: 720px) {
   .footer__inner {
     grid-template-columns: 1fr;
@@ -2021,6 +2038,142 @@ svg {
   .footer__right {
     gap: 32px;
   }
+}
+
+/* ---------- legal / policy pages ---------- */
+
+.legal {
+  padding-top: 140px;
+}
+
+.legal__wrap {
+  max-width: 760px;
+}
+
+.legal__back {
+  display: inline-block;
+  margin-bottom: 26px;
+  font-weight: 700;
+  font-size: 14.5px;
+  text-decoration: none;
+}
+
+.legal__back:hover {
+  text-decoration: underline;
+}
+
+.legal__title {
+  font-size: clamp(30px, 4vw, 40px);
+  margin-bottom: 8px;
+}
+
+.legal__updated {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  margin-bottom: 36px;
+}
+
+.legal__body {
+  color: var(--ink-soft);
+  font-size: 16.5px;
+}
+
+.legal__body h2 {
+  font-size: 21px;
+  color: var(--ink);
+  margin: 34px 0 10px;
+}
+
+.legal__body p {
+  margin: 0 0 1em;
+}
+
+.legal__body ul {
+  margin: 0 0 1em;
+  padding-left: 1.25em;
+}
+
+.legal__body li {
+  margin-bottom: 8px;
+}
+
+.legal__body strong {
+  color: var(--ink);
+}
+
+/* ---------- cookie consent banner ---------- */
+
+.cookie-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 200;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 24px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.cookie-banner__text {
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.cookie-banner__text a {
+  font-weight: 700;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  gap: 10px;
+  flex: none;
+}
+
+.cookie-banner__actions .btn {
+  padding: 9px 18px;
+  font-size: 14px;
+}
+
+@media (max-width: 520px) {
+  .cookie-banner__actions {
+    width: 100%;
+  }
+
+  .cookie-banner__actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+/* ---------- justified prose ---------- */
+/* Align body copy on both edges where it reads well; hyphenation keeps the
+   spacing even and last lines stay naturally aligned. */
+.section-lede,
+.hero__lede,
+.story__step p,
+.services__intro,
+.services__note,
+.step-card p,
+.value-card p,
+.footer__tagline p,
+.legal__body p,
+.legal__body li {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 /* ---------- reveal helper ---------- */

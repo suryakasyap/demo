@@ -517,6 +517,11 @@ export function Footer() {
             © {new Date().getFullYear()} Turning Point HR Solutions. All rights
             reserved.
           </span>
+          <nav className="footer__legal-links" aria-label="Legal">
+            <a href="#/privacy">Privacy Policy</a>
+            <a href="#/terms">Terms of Service</a>
+            <a href="#/cookies">Cookie Policy</a>
+          </nav>
           <span>Consulting · Software &amp; Product Development</span>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger, prefersReducedMotion } from '../lib/gsap';
+import { gsap, prefersReducedMotion } from '../lib/gsap';
 
 /**
  * Fade-and-rise an element once when it scrolls into view.
@@ -38,5 +38,3 @@ export default function useReveal({ y = 26, delay = 0, start = 'top 85%' } = {})
 
   return ref;
 }
-
-export { ScrollTrigger };

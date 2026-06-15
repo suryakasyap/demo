@@ -10,8 +10,7 @@ import {
 import { gsap, prefersReducedMotion } from '../lib/gsap';
 import useReveal from '../hooks/useReveal';
 import Highlight from './Highlight';
-import logoLight from '../assets/logo-light.png';
-import logoDark from '../assets/logo-dark.png';
+import Brand from './Brand';
 
 /* ---------- How we work ---------- */
 
@@ -417,7 +416,7 @@ export function Contact() {
               <p>
                 A2, Varanasi Majestic, Dwaraka Nagar 2nd Lane,
                 <br />
-                Opp. Indusund Bank,Visakhapatnam-530016.
+                Opp. IndusInd Bank, Visakhapatnam-530016.
               </p>
               <p>Phone: 0891-6669777 · 92466 55588</p>
             </div>
@@ -450,15 +449,7 @@ export function Footer() {
     <footer className="footer">
       <div className="wrap footer__inner">
         <div className="footer__left">
-          <a className="brand" href="#top">
-            <img className="brand__logo brand__logo--dark" src={logoDark} alt="TPHRS logo" />
-            <img className="brand__logo brand__logo--light" src={logoLight} alt="TPHRS logo" />
-            <div className="brand__text">
-              <span className="brand__mark">
-                TPHRS<span className="dot">.</span>
-              </span>
-            </div>
-          </a>
+          <Brand />
 
           <div className="footer__tagline">
             <p>

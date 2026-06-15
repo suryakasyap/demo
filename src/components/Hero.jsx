@@ -3,8 +3,6 @@ import { ArrowRight } from 'lucide-react';
 import { gsap, prefersReducedMotion } from '../lib/gsap';
 import PhotoLoop from './PhotoLoop';
 
-import heroBg from '../assets/hero-bg.png';
-
 const TICKER = [
   'Executive search',
   'HR advisory',
@@ -38,7 +36,8 @@ export default function Hero() {
       heroLines?.forEach((el) => el.classList.add('is-animating'));
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      tl.from('.hero .eyebrow', { y: 16, opacity: 0, duration: 0.6 })
+      tl.from('.hero__photos', { opacity: 0, duration: 1.2 }, 0)
+        .from('.hero .eyebrow', { y: 16, opacity: 0, duration: 0.6 }, 0.15)
         .from(
           '.hero__line > span',
           {
@@ -58,12 +57,7 @@ export default function Hero() {
           { y: 14, opacity: 0, duration: 0.5, stagger: 0.08 },
           '-=0.35'
         )
-        .from(
-          '.photo-loop',
-          { y: 26, opacity: 0, scale: 0.97, duration: 0.9 },
-          '-=0.7'
-        )
-        .from('.ticker', { opacity: 0, duration: 0.7 }, '-=0.6')
+        .from('.ticker', { opacity: 0, duration: 0.7 }, '-=0.4')
         .to(
           '.hero h1 .hl',
           {
@@ -81,9 +75,22 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top" ref={rootRef}>
-      <img className="hero__bg" src={heroBg} alt="" aria-hidden="true" />
-      <div className="wrap hero__grid">
-        <div>
+      <PhotoLoop />
+      <div className="hero__scrim" aria-hidden="true" />
+
+      <div className="ticker" aria-hidden="true">
+        <div className="ticker__track">
+          {[...TICKER, ...TICKER].map((item, i) => (
+            <span className="ticker__item" key={`${item}-${i}`}>
+              {item}
+              <span className="ticker__sep">✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="wrap hero__inner">
+        <div className="hero__copy">
           <p className="eyebrow">Advisory · Search · Outsourcing · Software</p>
           <h1>
             <span className="hero__line">
@@ -122,22 +129,10 @@ export default function Hero() {
               Singapore &amp; UAE
             </li>
             <li>
-              <span className="dot">●</span>Multiple practices, one accountable team
+              <span className="dot">●</span>Multiple practices, one accountable
+              team
             </li>
           </ul>
-        </div>
-
-        <PhotoLoop />
-      </div>
-
-      <div className="ticker" aria-hidden="true">
-        <div className="ticker__track">
-          {[...TICKER, ...TICKER].map((item, i) => (
-            <span className="ticker__item" key={`${item}-${i}`}>
-              {item}
-              <span className="ticker__sep">✦</span>
-            </span>
-          ))}
         </div>
       </div>
     </section>

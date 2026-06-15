@@ -118,18 +118,6 @@ svg {
   color: #1c241b;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .skip-link {
   position: absolute;
   left: -999px;
@@ -609,51 +597,149 @@ svg {
 
 .hero {
   position: relative;
-  padding: 92px 0 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: min(86vh, 760px);
+
+  /* Theme-aware hero tokens — light defaults here, dark overrides below.
+     The photo + scrim work in both themes: a light wash over the photo with
+     dark text in light mode, a dark scrim with light text in dark mode. */
+  --hero-photos-bg: var(--bg);
+  /* denser light wash for legibility headroom over the photo */
+  --hero-scrim:
+    linear-gradient(96deg, rgb(250 248 242 / 0.96) 0%, rgb(250 248 242 / 0.80) 42%, rgb(250 248 242 / 0.44) 100%),
+    linear-gradient(to top, rgb(250 248 242 / 0.84) 0%, rgb(250 248 242 / 0) 34%);
+  /* text sits over a photo: use near-black --ink (not the soft tokens) so the
+     eyebrow/lede/meta clear WCAG AA regardless of which photo or viewport. */
+  --hero-eyebrow: var(--ink);
+  --hero-eyebrow-bar: var(--accent);
+  --hero-h1: var(--ink);
+  --hero-h1-shadow: none;
+  --hero-lede: var(--ink);
+  --hero-lede-strong: var(--ink);
+  --hero-lede-shadow: none;
+  --hero-meta: var(--ink);
+  --hero-dot: var(--accent-deep);
+  --hero-ticker-bg: rgb(255 255 255 / 0.46);
+  --hero-ticker-border: var(--line);
+  --hero-ticker-item: var(--ink-soft);
+  --hero-ticker-sep: var(--accent-deep);
 }
 
-.hero__bg {
+[data-theme='dark'] .hero {
+  --hero-photos-bg: #0d120c;
+  --hero-scrim:
+    linear-gradient(96deg, rgb(8 12 7 / 0.88) 0%, rgb(8 12 7 / 0.62) 42%, rgb(8 12 7 / 0.22) 100%),
+    linear-gradient(to top, rgb(8 12 7 / 0.72) 0%, rgb(8 12 7 / 0) 32%);
+  --hero-eyebrow: #b7dcae;
+  --hero-eyebrow-bar: #b7dcae;
+  --hero-h1: #eef2ea;
+  /* embossed: light bottom edge + dark top edge + soft depth shadow */
+  --hero-h1-shadow:
+    0 1px 0 rgb(255 255 255 / 0.18),
+    0 -1px 1px rgb(0 0 0 / 0.45),
+    0 8px 26px rgb(0 0 0 / 0.5);
+  --hero-lede: rgb(244 247 241 / 0.92);
+  --hero-lede-strong: #fff;
+  --hero-lede-shadow: 0 1px 10px rgb(0 0 0 / 0.4);
+  --hero-meta: rgb(244 247 241 / 0.78);
+  --hero-dot: #b7dcae;
+  --hero-ticker-bg: rgb(8 12 7 / 0.4);
+  --hero-ticker-border: rgb(255 255 255 / 0.16);
+  --hero-ticker-item: rgb(244 247 241 / 0.72);
+  --hero-ticker-sep: #aed1a7;
+}
+
+/* full-bleed crossfading photo background */
+.hero__photos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--hero-photos-bg);
+}
+
+.hero__photo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center right;
-  opacity: 0.18;
-  pointer-events: none;
-  z-index: 0;
-  mask-image: linear-gradient(to bottom,
-      transparent 0%,
-      black 15%,
-      black 70%,
-      transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom,
-      transparent 0%,
-      black 15%,
-      black 70%,
-      transparent 100%);
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 1s ease;
 }
 
-[data-theme='dark'] .hero__bg {
-  opacity: 0.1;
-  mix-blend-mode: screen;
+.hero__photo.is-active {
+  opacity: 0.8;
+  animation: hero-kenburns 9s ease-out forwards;
 }
 
-.hero__grid {
-  position: relative;
+@keyframes hero-kenburns {
+  from {
+    transform: scale(1.04);
+  }
+
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* scrim wash keeps the text legible over any photo, tuned per theme */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
-  gap: 64px;
+  background: var(--hero-scrim);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
   align-items: center;
-  padding-bottom: 84px;
+  padding-top: 72px;
+  padding-bottom: 56px;
+}
+
+.hero__copy {
+  max-width: 720px;
+}
+
+.hero .eyebrow {
+  color: var(--hero-eyebrow);
+}
+
+.hero .eyebrow::before {
+  background: var(--hero-eyebrow-bar);
 }
 
 .hero h1 {
-  font-size: clamp(38px, 5.2vw, 62px);
-  line-height: 1.1;
-  margin-bottom: 26px;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.6vw, 66px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  color: var(--hero-h1);
+  text-shadow: var(--hero-h1-shadow);
+}
+
+/* The ink-bubble highlight reads on both themes: a fixed pale-green bubble
+   with dark text. background:none overrides the small-screen .hl rule so we
+   only get the animated ::before. */
+.hero h1 .hl {
+  color: #16261a;
+  background: none;
+  text-shadow: none;
+}
+
+.hero h1 .hl::before {
+  /* keep the drawn bubble on small screens too (single words don't wrap, so
+     the small-screen background fallback isn't needed here) */
+  display: block;
+  background: #c3dcba;
 }
 
 .hero__line {
@@ -674,27 +760,52 @@ svg {
 
 .hero__lede {
   font-size: 19px;
-  color: var(--ink-soft);
-  max-width: 34em;
-  margin-bottom: 32px;
+  color: var(--hero-lede);
+  max-width: 33em;
+  margin-bottom: 30px;
+  text-shadow: var(--hero-lede-shadow);
 }
 
 .hero__lede strong {
-  color: var(--ink);
+  color: var(--hero-lede-strong);
 }
 
 .hero__ctas {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-bottom: 34px;
+  margin-bottom: 32px;
+}
+
+/* Light mode uses the standard button styles; dark mode gets the pale-green
+   primary and translucent-white ghost that read on the dark scrim. */
+[data-theme='dark'] .hero .btn--primary {
+  background: #aed1a7;
+  color: #14241a;
+  border-color: #aed1a7;
+}
+
+[data-theme='dark'] .hero .btn--primary:hover {
+  background: #c4e0bd;
+  border-color: #c4e0bd;
+}
+
+[data-theme='dark'] .hero .btn--ghost {
+  color: #f3f7f0;
+  border-color: rgb(255 255 255 / 0.5);
+  background: rgb(255 255 255 / 0.04);
+}
+
+[data-theme='dark'] .hero .btn--ghost:hover {
+  border-color: #fff;
+  background: rgb(255 255 255 / 0.12);
 }
 
 .hero__meta {
   font-family: var(--font-mono);
   font-size: 12.5px;
   letter-spacing: 0.05em;
-  color: var(--ink-soft);
+  color: var(--hero-meta);
   display: flex;
   flex-wrap: wrap;
   gap: 10px 26px;
@@ -704,118 +815,27 @@ svg {
 }
 
 .hero__meta .dot {
-  color: var(--accent-deep);
+  color: var(--hero-dot);
   margin-right: 8px;
 }
 
-/* hero photo loop (crossfade + ken burns) */
-
-.photo-loop {
+/* ticker, sitting just below the nav at the top of the hero */
+.hero .ticker {
   position: relative;
-  min-height: 520px;
-  width: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: var(--surface-2);
-  box-shadow: var(--shadow);
+  z-index: 2;
+  border-top: none;
+  border-bottom: 1px solid var(--hero-ticker-border);
+  background: var(--hero-ticker-bg);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 
-.photo-loop__slide {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  transition: opacity 0.9s ease;
+.hero .ticker__item {
+  color: var(--hero-ticker-item);
 }
 
-.photo-loop__slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transform: scale(1);
-  transition: transform 4.8s linear;
-}
-
-.photo-loop__slide.is-active {
-  opacity: 1;
-}
-
-.photo-loop__slide.is-active img {
-  transform: scale(1.07);
-}
-
-.photo-loop__caption {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  max-width: calc(100% - 28px);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  background: rgb(20 24 19 / 0.78);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  color: #f5f8f2;
-  font-size: 13.5px;
-  font-weight: 600;
-  line-height: 1.4;
-  padding: 10px 14px;
-  border-radius: 12px;
-}
-
-.photo-loop__kicker {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #bfe0b8;
-}
-
-.photo-loop__dots {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  display: flex;
-  gap: 6px;
-}
-
-.photo-loop__dots button {
-  width: 9px;
-  height: 9px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.55);
-  cursor: pointer;
-  transition: width 0.3s var(--ease), background-color 0.3s ease;
-}
-
-.photo-loop__dots button.is-current {
-  width: 22px;
-  background: #ffffff;
-}
-
-.photo-loop--empty {
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--accent-soft), var(--surface));
-}
-
-.photo-loop__fallback {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 34px;
-  color: var(--accent-deep);
-  letter-spacing: 0.04em;
-}
-
-@media (max-width: 940px) {
-  .photo-loop {
-    min-height: 0;
-    aspect-ratio: 4 / 3;
-  }
+.hero .ticker__sep {
+  color: var(--hero-ticker-sep);
 }
 
 /* logo marquee (services tabs) */
@@ -994,14 +1014,21 @@ svg {
 }
 
 @media (max-width: 940px) {
+
+  /* a more even, bottom-weighted wash reads better behind full-width copy */
   .hero {
-    padding-top: 56px;
+    min-height: 0;
+    --hero-scrim: linear-gradient(180deg, rgb(250 248 242 / 0.74) 0%, rgb(250 248 242 / 0.90) 100%);
   }
 
-  .hero__grid {
-    grid-template-columns: 1fr;
-    gap: 44px;
-    padding-bottom: 64px;
+  [data-theme='dark'] .hero {
+    --hero-scrim: linear-gradient(180deg, rgb(8 12 7 / 0.58) 0%, rgb(8 12 7 / 0.82) 100%);
+  }
+
+  .hero__inner {
+    padding-top: 52px;
+    padding-bottom: 44px;
+    min-height: 74vh;
   }
 }
 
@@ -2172,8 +2199,11 @@ svg {
 .legal__body p,
 .legal__body li {
   text-align: justify;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  /* no auto-hyphenation — never break words mid-line. text-wrap: pretty lets
+     the browser optimize line breaks so justified spacing stays even. */
+  -webkit-hyphens: none;
+  hyphens: none;
+  text-wrap: pretty;
 }
 
 /* ---------- reveal helper ---------- */
@@ -2186,9 +2216,19 @@ svg {
 /* small screens */
 
 @media (max-width: 600px) {
+
+  /* The scaleX ::before bubble is a single rounded rectangle, so it can't
+     follow a highlighted phrase that wraps onto a second line. On narrow
+     screens we instead paint the highlight as a background gradient on the
+     text itself — box-decoration-break gives each wrapped fragment its own
+     pill — and reveal it left-to-right by driving background-size from the
+     same --ink-scale that GSAP already animates (0 → 1). No JS change needed. */
   .hl {
     white-space: normal;
-    background: var(--hl-bg);
+    background-image: linear-gradient(var(--hl-bg), var(--hl-bg));
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: calc(var(--ink-scale) * 100%) 100%;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
@@ -2231,11 +2271,6 @@ svg {
     font-size: 18px;
   }
 
-  .brand__sub {
-    font-size: 8px;
-    letter-spacing: 0.14em;
-  }
-
   .footer .brand__logo {
     height: 34px;
   }
@@ -2255,6 +2290,11 @@ svg {
 
   .hl {
     --ink-scale: 1;
+  }
+
+  .hero__photo.is-active {
+    animation: none;
+    transform: none;
   }
 
   .practice-card:hover {

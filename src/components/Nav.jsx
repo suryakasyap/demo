@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import logoLight from '../assets/logo-light.png';
-import logoDark from '../assets/logo-dark.png';
+import Brand from './Brand';
 
 const LINKS = [
   { href: '#story', label: 'Our story' },
@@ -65,15 +64,7 @@ export default function Nav({ theme, onToggleTheme }) {
   return (
     <header className={`nav ${scrolled ? 'is-scrolled' : ''} ${open ? 'menu-open' : ''}`}>
       <div className="wrap nav__inner">
-        <a className="brand" href="#top" onClick={() => setOpen(false)}>
-          <img className="brand__logo brand__logo--dark" src={logoDark} alt="TPHRS logo" />
-          <img className="brand__logo brand__logo--light" src={logoLight} alt="TPHRS logo" />
-          <div className="brand__text">
-            <span className="brand__mark">
-              TPHRS<span className="dot">.</span>
-            </span>
-          </div>
-        </a>
+        <Brand onClick={() => setOpen(false)} />
 
         <nav aria-label="Main">
           <ul className="nav__links" onClick={() => setOpen(false)}>

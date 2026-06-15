@@ -244,6 +244,7 @@ export default function LegalPage({ page }) {
         <a className="legal__back" href="#top">
           &larr; Back to home
         </a>
+        <br></br>
         <p className="eyebrow">Legal</p>
         <h1 className="legal__title">{title}</h1>
         <p className="legal__updated">Last updated: {LAST_UPDATED}</p>

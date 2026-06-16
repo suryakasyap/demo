@@ -777,8 +777,22 @@ svg {
   margin-bottom: 32px;
 }
 
-/* Light mode uses the standard button styles; dark mode gets the pale-green
-   primary and translucent-white ghost that read on the dark scrim. */
+/* Light mode: give the secondary CTA a solid pale-sage fill so it stays
+   clearly visible against the hero, while reading as secondary to the
+   filled primary button. Dark mode keeps the translucent-white ghost
+   that reads on the dark scrim (overrides below win on specificity). */
+.hero .btn--ghost {
+  background: var(--accent-soft);
+  border-color: var(--accent-deep);
+  color: var(--accent-deep);
+}
+
+.hero .btn--ghost:hover {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  color: var(--btn-ink);
+}
+
 [data-theme='dark'] .hero .btn--primary {
   background: #aed1a7;
   color: #14241a;

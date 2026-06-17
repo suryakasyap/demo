@@ -1839,12 +1839,6 @@ svg {
   min-height: 120px;
 }
 
-.contact-form__hint {
-  font-size: 13.5px;
-  color: var(--ink-soft);
-  margin: 14px 0 0;
-}
-
 .office {
   border-top: 2px solid var(--line);
   padding: 22px 0;

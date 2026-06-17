@@ -315,7 +315,7 @@ export function Contact() {
     const body = encodeURIComponent(
       `Name: ${form.name}\nEmail: ${form.email}\nNeed: ${form.need}\n\n${form.message}`
     );
-    window.location.href = `mailto:dvrraju@tphrs.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:hr@tphrs.com?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -380,7 +380,7 @@ export function Contact() {
             </button>
             <p className="contact-form__hint">
               This opens your email app with the message pre-filled, addressed
-              to dvrraju@tphrs.com
+              to hr@tphrs.com
             </p>
           </form>
 

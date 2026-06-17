@@ -378,10 +378,6 @@ export function Contact() {
                 <ArrowRight size={16} />
               </span>
             </button>
-            <p className="contact-form__hint">
-              This opens your email app with the message pre-filled, addressed
-              to hr@tphrs.com
-            </p>
           </form>
 
           <div>
